@@ -1,4 +1,10 @@
-Avoid_Obstacle_Dataset.rar
-Data_To_Label.zip
-Lane_Tracking_Dataset.rar
-Avoid_Object_Dataset.rar
+__pycache__/
+runs/
+yolo_dataset*/
+gtsrb_yolo_dataset/
+*.pt
+!yolo26n.pt
+*.zip
+*.rar
+output.jpg
+train/

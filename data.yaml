@@ -1,0 +1,9 @@
+path: /home/nhanhq/JetRacer/yolo_dataset_pretrained
+train: images/train
+val: images/train
+nc: 4
+names:
+  0: Go_straight
+  1: Turn_left
+  2: Turn_right
+  3: Prohibited

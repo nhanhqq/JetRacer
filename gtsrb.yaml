@@ -1,0 +1,6 @@
+path: /home/nhanhq/JetRacer/gtsrb_yolo_dataset
+train: images/train
+val: images/train
+nc: 1
+names:
+  0: Traffic_Sign
