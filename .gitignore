@@ -6,4 +6,3 @@ gtsrb_yolo_dataset/
 *.zip
 *.rar
 output.jpg
-train/
