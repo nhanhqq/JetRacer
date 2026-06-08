@@ -1,6 +1,5 @@
 __pycache__/
 yolo_dataset*/
 gtsrb_yolo_dataset/
-*.pt
 *.zip
 *.rar
