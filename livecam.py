@@ -1,8 +1,14 @@
+import os
+import glob
 import cv2
 from ultralytics import YOLO
 
 def run_livecam():
-    model = YOLO('/home/nhanhq/JetRacer/runs/detect/traffic_sign_finetune_v2/weights/best.pt')
+    weight_files = glob.glob('/home/nhanhq/JetRacer/runs/detect/*/weights/best.pt')
+    if not weight_files:
+        return
+    best_weight = max(weight_files, key=os.path.getmtime)
+    model = YOLO(best_weight)
     cap = cv2.VideoCapture(0)
     
     if not cap.isOpened():

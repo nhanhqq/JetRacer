@@ -1,9 +1,14 @@
 import os
+import glob
 import random
 from ultralytics import YOLO
 
 def inference():
-    model = YOLO('/home/nhanhq/JetRacer/runs/detect/traffic_sign_detection_v2/weights/best.pt')
+    weight_files = glob.glob('/home/nhanhq/JetRacer/runs/detect/*/weights/best.pt')
+    if not weight_files:
+        return
+    best_weight = max(weight_files, key=os.path.getmtime)
+    model = YOLO(best_weight)
     val_dir = '/home/nhanhq/JetRacer/yolo_dataset_v2/images/val'
     
     images = [os.path.join(val_dir, f) for f in os.listdir(val_dir) if f.endswith('.png')]
