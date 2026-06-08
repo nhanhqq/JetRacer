@@ -1,5 +1,4 @@
 __pycache__/
-runs/
 yolo_dataset*/
 gtsrb_yolo_dataset/
 *.pt
