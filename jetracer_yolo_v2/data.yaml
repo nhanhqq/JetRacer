@@ -1,0 +1,9 @@
+path: /home/nhanhq/JetRacer/jetracer_yolo_v2
+train: images/train
+val: images/val
+nc: 4
+names:
+  0: Go_straight
+  1: Turn_left
+  2: Turn_right
+  3: Prohibited
