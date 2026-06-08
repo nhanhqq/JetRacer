@@ -3,3 +3,4 @@ yolo_dataset*/
 gtsrb_yolo_dataset/
 *.zip
 *.rar
+*.pt

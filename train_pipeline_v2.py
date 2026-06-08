@@ -100,15 +100,15 @@ def prepare_jetracer():
         os.makedirs(os.path.join(out_dir, f'labels/{split}'), exist_ok=True)
 
     classes = {
-        '0_Go_straight': 'go-straight',
-        '1_Turn_left': 'turn-left',
-        '2_Turn_right': 'turn-right',
-        '3_Prohibited': 'one-way'
+        '0_Go_straight': ('go-straight', 0),
+        '1_Turn_left': ('turn-left', 1),
+        '2_Turn_right': ('turn-right', 2),
+        '3_Prohibited': ('one-way', 3)
     }
 
     dataset = []
 
-    for img_folder, label_folder in classes.items():
+    for img_folder, (label_folder, true_class_id) in classes.items():
         img_folder_path = os.path.join(base_img_dir, img_folder)
         lbl_folder_path = os.path.join(tmp_zip_dir, 'traffic-sign', label_folder)
 
@@ -122,22 +122,30 @@ def prepare_jetracer():
             txt_path = os.path.join(lbl_folder_path, txt_name)
 
             if os.path.exists(txt_path):
-                dataset.append((img_path, txt_path))
+                dataset.append((img_path, txt_path, true_class_id))
 
     random.shuffle(dataset)
     split_idx = int(len(dataset) * 0.8)
     train_data = dataset[:split_idx]
     val_data = dataset[split_idx:]
 
-    def copy_data(data, split):
-        for img_path, txt_path in data:
+    def process_data(data, split):
+        for img_path, txt_path, true_class_id in data:
             img_name = os.path.basename(img_path)
             txt_name = os.path.basename(txt_path)
             shutil.copy(img_path, os.path.join(out_dir, f'images/{split}', img_name))
-            shutil.copy(txt_path, os.path.join(out_dir, f'labels/{split}', txt_name))
+            
+            with open(txt_path, 'r') as f:
+                lines = f.readlines()
+            
+            with open(os.path.join(out_dir, f'labels/{split}', txt_name), 'w') as f:
+                for line in lines:
+                    parts = line.strip().split()
+                    if len(parts) == 5:
+                        f.write(f"{true_class_id} {parts[1]} {parts[2]} {parts[3]} {parts[4]}\n")
 
-    copy_data(train_data, 'train')
-    copy_data(val_data, 'val')
+    process_data(train_data, 'train')
+    process_data(val_data, 'val')
 
     yaml_path = os.path.join(out_dir, 'data.yaml')
     with open(yaml_path, 'w') as f:
